@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:racha_role/components/login/login-page.dart';
+import 'package:provider/provider.dart';
+import 'package:racha_role/features/home/home-page.dart';
+import 'package:racha_role/features/login/login.controller.dart';
+import 'package:racha_role/features/login/login.page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginController()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,19 +21,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Racha Role',
+      // builder: (BuildContext context, Widget? widget) {
+      //   ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+      //     return CustomError(errorDetails: errorDetails);
+      //   };
+
+      //   return widget;
+      // },
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
       ),
-      home: LoginPage(),
+      initialRoute: '/login',
+      routes: {
+        '/': (context) => HomePage(title: "Racha Conta"),
+        '/login': (context) => LoginPage()
+      },
     );
   }
 }
